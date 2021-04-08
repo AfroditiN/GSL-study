@@ -1,0 +1,2 @@
+var  vid_stimuli =  ["/Users/au183362/Documents/postdoc/NeDComm/interns/Afroditi_Ntourountzi/GSL/Final_videos/αγάπη_m.mp4", "/Users/au183362/Documents/postdoc/NeDComm/interns/Afroditi_Ntourountzi/GSL/Final_videos/γραμμή_m.mp4", "/Users/au183362/Documents/postdoc/NeDComm/interns/Afroditi_Ntourountzi/GSL/Final_videos/ιδέα_m.mp4", "/Users/au183362/Documents/postdoc/NeDComm/interns/Afroditi_Ntourountzi/GSL/Final_videos/λάθος_m.mp4", "/Users/au183362/Documents/postdoc/NeDComm/interns/Afroditi_Ntourountzi/GSL/Final_videos/λέξη_m.mp4"
+]
