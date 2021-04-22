@@ -6,7 +6,7 @@ var  lex_stimuli =  [
       "response": "i",
       "word_type": "same_word",
       "video": "αγάπη",
-      "video_source": "/Users/au183362/Documents/postdoc/NeDComm/interns/Afroditi_Ntourountzi/GSL/Final_videos/αγάπη_m.mp4",
+      "video_source": "videos/αγάπη_m.mp4",
       "video_type": "mouthing"
     }
   },
@@ -17,7 +17,7 @@ var  lex_stimuli =  [
       "response": "i",
       "word_type": "same_word",
       "video": "γραμμή",
-      "video_source": "/Users/au183362/Documents/postdoc/NeDComm/interns/Afroditi_Ntourountzi/GSL/Final_videos/γραμμή_m.mp4",
+      "video_source": "videos/γραμμή_m.mp4",
       "video_type": "mouthing"
     }
   },
@@ -28,7 +28,7 @@ var  lex_stimuli =  [
       "response": "i",
       "word_type": "same_word",
       "video": "ιδέα",
-      "video_source": "/Users/au183362/Documents/postdoc/NeDComm/interns/Afroditi_Ntourountzi/GSL/Final_videos/ιδέα_m.mp4",
+      "video_source": "videos/ιδέα_m.mp4",
       "video_type": "mouthing"
     }
   },
@@ -39,7 +39,7 @@ var  lex_stimuli =  [
       "response": "i",
       "word_type": "same_word",
       "video": "λάθος",
-      "video_source": "/Users/au183362/Documents/postdoc/NeDComm/interns/Afroditi_Ntourountzi/GSL/Final_videos/λάθος_m.mp4",
+      "video_source": "videos/λάθος_m.mp4",
       "video_type": "mouthing"
     }
   },
@@ -50,7 +50,7 @@ var  lex_stimuli =  [
       "response": "i",
       "word_type": "same_word",
       "video": "λέξη",
-      "video_source": "/Users/au183362/Documents/postdoc/NeDComm/interns/Afroditi_Ntourountzi/GSL/Final_videos/λέξη_m.mp4",
+      "video_source": "videos/λέξη_m.mp4",
       "video_type": "mouthing"
     }
   }
