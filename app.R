@@ -14,7 +14,8 @@ library(shiny)
 library(jspsychr)
 library(dplyr)
 
-
+# base_dir <- "/Users/afrod/Desktop/GSL"
+base_dir <- "/Users/au183362/Documents/postdoc/NeDComm/interns/Afroditi_Ntourountzi/GSL"
 jspsych_dir <- file.path(base_dir, "jspsych-6.3.1")
 
 write_to_file <- function(json_object,file_name,var_name=NULL){
@@ -191,6 +192,45 @@ trial <- page(
   validate = function(answer, ...) nchar(answer) > 0L,
   save_answer = TRUE
 )
+
+##Intro
+ui_intro <- tags$div(
+  head,
+  includeScript(file.path(base_dir, "intro_text.js")),
+  includeScript(file.path(base_dir, "intro-timeline.js")),
+  includeScript(file.path(base_dir, "run-jspsych.js")),
+  tags$div(id = "js_psych", style = "min-height: 90vh")
+)
+
+intro <- page(
+  ui = ui_intro,
+  label = "intro",
+  get_answer = function(input, ...)
+    input$jspsych_results,
+  validate = function(answer, ...)
+    nchar(answer) > 0L,
+  save_answer = TRUE
+)
+
+##Instructions 
+ui_instructions <- tags$div(
+  head,
+  includeScript(file.path(base_dir, "instructions_text.js")),
+  includeScript(file.path(base_dir, "instructions-timeline.js")),
+  includeScript(file.path(base_dir, "run-jspsych.js")),
+  tags$div(id = "js_psych", style = "min-height: 90vh")
+)
+
+instructions <- page(
+  ui = ui_instructions,
+  label = "instructions",
+  get_answer = function(input, ...)
+    input$jspsych_results,
+  validate = function(answer, ...)
+    nchar(answer) > 0L,
+  save_answer = TRUE
+)
+
 
 ##### Survey questions #####
 ##Age and nationality
@@ -374,6 +414,7 @@ elts <- list(
   mainlang,
   neuro,
   education,
+  # instructions,
   trial,
   elt_save_results_to_disk(complete = TRUE),
   final
