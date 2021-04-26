@@ -14,15 +14,15 @@ library(shiny)
 library(jspsychr)
 library(dplyr)
 
-# base_dir <- "/Users/afrod/Desktop/GSL"
-base_dir <- "/Users/au183362/Documents/postdoc/NeDComm/interns/Afroditi_Ntourountzi/GSL"
+
+base_dir <- ""
 jspsych_dir <- file.path(base_dir, "jspsych-6.3.1")
 
 write_to_file <- function(json_object,file_name,var_name=NULL){
   if(is.null(var_name)){
     write(json_object, file=file_name)
   }else{
-    write(paste("var ",var_name,"= ", json_object), file=file_name)
+    write(paste("var ",var_name,"= ", json_object, ";"), file=file_name)
   }
 }
 
@@ -52,10 +52,10 @@ vid_stim_test <- data.frame( video = video_test,
 
 # with mouthing
 new_lex_test = sample(lex_test$word[(rl+1):(rl*2)])
-print(new_lex_test)
+# print(new_lex_test)
 while (any(new_lex_test==vid_stim_test$video[(rl+1):(rl*2)])) {     
   new_lex_test = sample(lex_test$word[(rl+1):(rl*2)])
-  print(new_lex_test)
+  # print(new_lex_test)
 }
 new_lex_test_m=  vid_stim_test[(rl+1):(rl*2),]
 new_lex_test_m$word = new_lex_test
@@ -63,10 +63,10 @@ new_lex_test_m$word_type = lex_test$word_type[(rl+1):(rl*2)]
 
 # without mouthing
 new_lex_test = sample(lex_test$word[(rl+1):(rl*2)])
-print(new_lex_test)
+# print(new_lex_test)
 while (any(new_lex_test==vid_stim_test$video[(5*rl+1):(rl*6)])) {     
   new_lex_test = sample(lex_test$word[(rl+1):(rl*2)])
-  print(new_lex_test)
+  # print(new_lex_test)
 }
 new_lex_test_n =  vid_stim_test[(5*rl+1):(rl*6),]
 new_lex_test_n$word = new_lex_test
@@ -82,10 +82,10 @@ avg_match <- function(y,z) {
 
 # WITH mouthing
 new_pseudo_test = sample(lex_test$word[(sl/2+1):sl])
-print(new_pseudo_test)
+# print(new_pseudo_test)
 while (any(mapply(avg_match, new_pseudo_test, vid_stim_test$video[(2*pl+1):(pl*4)])>0.5)) {
   new_pseudo_test = sample(lex_test$word[(sl/2+1):sl])
-  print(new_pseudo_test)
+  # print(new_pseudo_test)
 }
 new_pseudo_test_m =  vid_stim_test[(2*pl+1):(pl*4),]
 new_pseudo_test_m$word = new_pseudo_test
@@ -93,10 +93,10 @@ new_pseudo_test_m$word_type = lex_test$word_type[(sl/2+1):sl]
 
 # WITHOUT mouthing
 new_pseudo_test = sample(lex_test$word[(sl/2+1):sl])
-print(new_pseudo_test)
+# print(new_pseudo_test)
 while (any(mapply(avg_match, new_pseudo_test, vid_stim_test$video[(6*rl+1):(rl*8)])>0.5)) {
   new_pseudo_test = sample(lex_test$word[(sl/2+1):sl])
-  print(new_pseudo_test)
+  # print(new_pseudo_test)
 }
 new_pseudo_test_n =  vid_stim_test[(6*rl+1):(rl*8),]
 new_pseudo_test_n$word = new_pseudo_test
@@ -161,6 +161,22 @@ vid_json <- stimulus_df_to_json(df = full_test,
 # write_to_file(lex_json, file.path(base_dir, "lex_stimuli.js"), "lex_stimuli")
 write_to_file(vid_json, file.path(base_dir, "vid_stimuli.js"), "vid_stimuli")
 
+# write("var vid_array = [", file="vid_array.js")
+# apply(full_test, 1, function(x){
+#   if(length(full_test$video_source)==temp){
+#     write(paste("'",x["video_source"],"'", sep=""), file="vid_array.js", append=TRUE)
+#   }else{
+#     write(paste("'",x["video_source"],"',", sep=""), file="vid_array.js", append=TRUE)
+# }})
+# write("];",file="vid_array.js",append = TRUE)
+
+write("var vid_array = [", file="vid_array.js")
+apply(full_test[1:nrow(full_test)-1,], 1, function(x){
+  write(paste("'",x["video_source"],"',", sep=""), file="vid_array.js", append=TRUE)
+  })
+write(paste("'",full_test[nrow(full_test),"video_source"],"'];", sep=""),
+      file="vid_array.js",append = TRUE)
+
 ###############################
 ##### jsPsych starts here #####
 ###############################
@@ -180,6 +196,7 @@ head <- tags$head(
 ui_video <- tags$div(
   head, 
   includeScript(file.path(base_dir, "vid_stimuli.js")),
+  includeScript(file.path(base_dir, "vid_array.js")),
   includeScript("video-timeline.js"),
   includeScript("run-jspsych-vid.js"),
   tags$div(id = "js_psych", style = "min-height: 90vh")
@@ -404,7 +421,7 @@ final <- page(
 )
 
 elts <- list(
-  # intro,
+  intro,
   demographics,
   gender,
   deaf1,
@@ -414,7 +431,7 @@ elts <- list(
   mainlang,
   neuro,
   education,
-  # instructions,
+  instructions,
   trial,
   elt_save_results_to_disk(complete = TRUE),
   final
@@ -432,4 +449,4 @@ make_test(
       css = file.path(jspsych_dir, "css/jspsych.css"))
   ))
 
-# shiny::runApp(".")
+# shiny::runApp('.')
