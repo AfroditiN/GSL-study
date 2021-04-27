@@ -6,7 +6,7 @@ function new_timeline() {
     timeline: [{
       type: "survey-multi-choice",
       questions: [
-        {prompt: "Παρκαλώ επιλέξτε το επίπεδο ολοκληρωμένης εκπαίδευσης.", name: 'Education', options: edu, required: true}
+        {prompt: "Παρακαλώ επιλέξτε το επίπεδο ολοκληρωμένης εκπαίδευσης.", name: 'Education', options: edu, required: true}
       ],
       post_trial_gap: 500
   }],
