@@ -15,7 +15,7 @@ library(jspsychr)
 library(dplyr)
 
 
-base_dir <- "/srv/shiny-server/GSL-study"
+base_dir <- ""
 jspsych_dir <- file.path(base_dir, "jspsych-6.3.1")
 
 write_to_file <- function(json_object,file_name,var_name=NULL){
@@ -375,6 +375,25 @@ ui_mainlang <- tags$div(
 mainlang <- page(
   ui = ui_mainlang,
   label = 'mainlang',
+  get_answer = function(input, ...)
+    input$jspsych_results,
+  validate = function(answer, ...)
+    nchar(answer) > 0L,
+  save_answer = TRUE
+)
+
+## Education
+
+ui_edu <- tags$div(
+  head,
+  includeScript(file.path(base_dir, "edu-timeline.js")),
+  includeScript(file.path(base_dir, "run-jspsych.js")),
+  tags$div(id = "js_psych", style = "min-height: 90vh")
+)
+
+education <- page(
+  ui = ui_edu,
+  label = 'education',
   get_answer = function(input, ...)
     input$jspsych_results,
   validate = function(answer, ...)
