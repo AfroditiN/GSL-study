@@ -82,7 +82,7 @@ var video_trial = {
 
 var lex_dec = {
     type: 'html-keyboard-response',
-    choices: ["i","j"],
+    choices: ["i","I","j","J","ι","Ι","ξ","Ξ"],
     trial_duration: 2000,
     response_ends_trial: true,
     // stimulus: "<p id = 'lex_stim' style = 'color: black; font-size: 60pt;'>αγάπη<\/p>",
@@ -94,9 +94,9 @@ var lex_dec = {
     data: jsPsych.timelineVariable('data'),
     on_finish: function(data){
       var correct = false;
-      if(data.response == 'i' &&  data.key_press == 105 && data.rt > -1){
+      if(data.response == 'i' && data.key_press == 73 && data.rt > -1){
         correct = true;
-      } else if(data.response == 'j' &&  data.key_press == 106 && data.rt > -1){
+      } else if(data.response == 'j' && data.key_press == 74 && data.rt > -1){
         correct = true;
       }
       data.correct = correct;

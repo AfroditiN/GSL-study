@@ -5,7 +5,7 @@ function new_timeline() {
       timeline: [{
         type: "survey-text",
         questions: [
-          {prompt: "Εάν όχι, σε ποια ηλικία χάσατε την ακοή σας;", name: 'Deafness2', required: true},
+          {prompt: "Εάν όχι, σε ποια ηλικία χάσατε την ακοή σας;", name: 'Deafness2', required: false},
         ],
         post_trial_gap: 500
     }],

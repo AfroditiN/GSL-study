@@ -4,7 +4,9 @@ function new_timeline() {
   var greek = {
     timeline: [{
       type: 'instructions',
-      pages: ['<p>Πρόκειται να δεις ένα βίντεο με κάποιον που νοηματίζει μια λέξη</p>' +
+      // pages: jsPsych.timelineVariable("stimulus"),
+      pages: ['<p>Σας ευχαριστούμε που συμπληρώσατε τη δημογραφική έρευνα.</p>' +
+          '<p>Πρόκειται να δεις ένα βίντεο με κάποιον που νοηματίζει μια λέξη</p>' +
           '<p>και έπειτα, μία γραπτή λέξη θα εμφανιστεί στην οθόνη σου.</p>'+
           '<p>Θα θέλαμε να αποφασίσεις όσο πιο γρήγορα μπορείς, εάν η γραπτή λέξη</p>' +
           '<p>είναι πραγματική ελληνική λέξη ή όχι.</p>'+
@@ -14,6 +16,7 @@ function new_timeline() {
       allow_keys: false,
       show_clickable_nav: true
     }]
+    // timeline_variables: instructions_text
   };
   return [greek];
 }

@@ -15,7 +15,7 @@ library(jspsychr)
 library(dplyr)
 
 
-base_dir <- "/srv/shiny-server/GSL-study"
+base_dir <- ""
 jspsych_dir <- file.path(base_dir, "jspsych-6.3.1")
 
 write_to_file <- function(json_object,file_name,var_name=NULL){
@@ -459,10 +459,11 @@ elts <- list(
 make_test(
   elts = elts,
   opt = test_options(
-    title="GSL, Aarhus 2021",
+    # title="GSL, Aarhus 2021",
     admin_password="", # write a secret password here
-    enable_admin_panel=TRUE,
+    enable_admin_panel=FALSE,
     researcher_email="201902479@post.au.dk",
+    problems_info=shiny::tags$span("Problems? Send an email to ", shiny::tags$b(researcher_email)),
     display = display_options(
       # fullscreen = TRUE, 
       css = file.path(jspsych_dir, "css/jspsych.css"))
