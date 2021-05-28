@@ -442,17 +442,17 @@ final <- page(
 
 elts <- list(
   intro,
-  # demographics,
-  # gender,
-  # deaf1,
-  # deaf2,
-  # cochlear1,
-  # cochlear2,
-  # mainlang,
-  # neuro,
-  # education,
-  # instructions,
-  # trial,
+  demographics,
+  gender,
+  deaf1,
+  deaf2,
+  cochlear1,
+  cochlear2,
+  mainlang,
+  neuro,
+  education,
+  instructions,
+  trial,
   elt_save_results_to_disk(complete = TRUE),
   final
 )
@@ -465,7 +465,6 @@ exp <- make_test(
     enable_admin_panel=TRUE,
     researcher_email="201902479@post.au.dk",
     #problems_info=shiny::tags$span("Problems? Send an email to ", shiny::tags$b(researcher_email)),
- shiny::tags$b(researcher_email)),
     display = display_options(
       fullscreen = TRUE, 
       css = file.path(jspsych_dir, "css/jspsych.css"))
