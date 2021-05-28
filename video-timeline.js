@@ -94,9 +94,9 @@ var lex_dec = {
     data: jsPsych.timelineVariable('data'),
     on_finish: function(data){
       var correct = false;
-      if(data.response == 'i' && data.key_press == 73 && data.rt > -1){
+      if(data.response == 'i' &&  ["i","I","ι","Ι"].includes(data.key) && data.rt > -1){
         correct = true;
-      } else if(data.response == 'j' && data.key_press == 74 && data.rt > -1){
+      } else if(data.response == 'j' && ["j","J","ξ","Ξ"].includes(data.key) && data.rt > -1){
         correct = true;
       }
       data.correct = correct;
