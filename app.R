@@ -15,7 +15,7 @@ library(jspsychr)
 library(dplyr)
 
 
-base_dir <- "Users/afrod/Desktop/GSL_final"
+base_dir <- ""/srv/shiny-server/GSL_experiment""
 jspsych_dir <- file.path(base_dir, "jspsych-6.3.1")
 
 write_to_file <- function(json_object,file_name,var_name=NULL){
