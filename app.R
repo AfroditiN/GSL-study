@@ -457,16 +457,17 @@ elts <- list(
   final
 )
 
-make_test(
+exp <- make_test(
   elts = elts,
   opt = test_options(
-    # title="GSL, Aarhus 2021",
+    title="GSL, Aarhus 2021",
     admin_password="", # write a secret password here
-    enable_admin_panel=FALSE,
-    #researcher_email="201902479@post.au.dk",
-    problems_info=shiny::tags$span("Problems? Send an email to ", shiny::tags$b(researcher_email)),
+    enable_admin_panel=TRUE,
+    researcher_email="201902479@post.au.dk",
+    #problems_info=shiny::tags$span("Problems? Send an email to ", shiny::tags$b(researcher_email)),
+ shiny::tags$b(researcher_email)),
     display = display_options(
-      # fullscreen = TRUE, 
+      fullscreen = TRUE, 
       css = file.path(jspsych_dir, "css/jspsych.css"))
   ))
 
