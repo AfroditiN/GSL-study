@@ -100,7 +100,8 @@ var lex_dec = {
         correct = true;
       }
       data.correct = correct;
-      data.key_press = data.key;
+      jsPsych.data.addProperties({key: data.key});
+      jsPsych.data.addProperties({key_press: data.key_press});
     },
     // post_trial_gap: function() {
     //     return Math.floor(Math.random() * 1500) + 500;
