@@ -133,7 +133,7 @@ full_test$color = 'black'
 full_test$id = "lex_stim"
 full_test$fontsize = "60pt"
 full_test <- full_test %>% 
-  mutate(response = if_else(word_type > 2, "j", "i")) %>%
+  mutate(key_answer = if_else(word_type > 2, "j", "i")) %>%
   mutate(word_type = recode(word_type, "1" = "same_word", "2" = "diff_word", "3" = "pseudoword")) %>%
   mutate(video_type = recode(video_type, "1" = "mouthing", "2" = "no_mouthing"))
 
@@ -150,7 +150,7 @@ full_test = full_test[1:5,]
 # create json object from dataframe
 # lex_json <- stimulus_df_to_json(df = full_test,
 #                                 stimulus = "stimulus",
-#                                 data = c("word","response","word_type",
+#                                 data = c("word","key_answer","word_type",
 #                                          "video","video_source","video_type"))
 
 vid_json <- stimulus_df_to_json(df = full_test,
