@@ -96,12 +96,11 @@ var lex_dec = {
       var correct = false;
       var keys_i = ["i","I","ι","Ι"];
       var keys_j = ["j","J","ξ","Ξ"];
-      if(data.response == 'i' &&  keys_i.includes(data.key) && data.rt > -1){
-        correct = true;
-      } else if(data.response == 'j' && keys_j.includes(data.key) && data.rt > -1){
+      if(data.response == data.key && data.rt > -1){
         correct = true;
       }
       data.correct = correct;
+      data.key_press = data.key;
     },
     // post_trial_gap: function() {
     //     return Math.floor(Math.random() * 1500) + 500;
