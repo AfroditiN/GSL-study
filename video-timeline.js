@@ -94,9 +94,11 @@ var lex_dec = {
     data: jsPsych.timelineVariable('data'),
     on_finish: function(data){
       var correct = false;
-      if(data.response == 'i' &&  ["i","I","ι","Ι"].includes(data.key) && data.rt > -1){
+      var keys_i = ["i","I","ι","Ι"];
+      var keys_j = ["j","J","ξ","Ξ"];
+      if(data.response == 'i' &&  keys_i.includes(data.key) && data.rt > -1){
         correct = true;
-      } else if(data.response == 'j' && ["j","J","ξ","Ξ"].includes(data.key) && data.rt > -1){
+      } else if(data.response == 'j' && keys_j.includes(data.key) && data.rt > -1){
         correct = true;
       }
       data.correct = correct;
