@@ -155,7 +155,7 @@ full_test = full_test[1:5,]
 
 vid_json <- stimulus_df_to_json(df = full_test,
                                 stimulus = c("video_source","stimulus"),
-                                data = c("word","response","word_type",
+                                data = c("word","key_answer","word_type",
                                          "video","stimulus","video_type"))
 
 # write json object to script
