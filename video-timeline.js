@@ -27,21 +27,21 @@
 // VERSION 2
 var timeline = [];
 
-var preload = {
-    type: 'preload',
-    auto_preload: true,
-    video: ['videos/αγάπη_m.mp4', 'videos/γραμμή_m.mp4', 'videos/ιδέα_m.mp4'],
-    on_success: function(file) {
-        console.log('File loaded: ',file);
-    },
-  };
-timeline.push(preload);
+// var preload = {
+//     type: 'preload',
+//     auto_preload: true,
+//     video: ['videos/αγάπη_m.mp4', 'videos/γραμμή_m.mp4', 'videos/ιδέα_m.mp4'],
+//     on_success: function(file) {
+//         console.log('File loaded: ',file);
+//     },
+//   };
+// timeline.push(preload);
 
-var test_stimuli = [
-    { stimulus: 'videos/test1.mp4'},
-    { stimulus: 'videos/test2.mp4'},
-    { stimulus: 'videos/test3.mp4'}
-  ];
+// var test_stimuli = [
+//     { stimulus: 'videos/test1.mp4'},
+//     { stimulus: 'videos/test2.mp4'},
+//     { stimulus: 'videos/test3.mp4'}
+//   ];
 
 // create pre-video-fixation node
 var fixation_vid = {
@@ -82,7 +82,7 @@ var video_trial = {
 
 var lex_dec = {
     type: 'html-keyboard-response',
-    choices: ["i","I","j","J","ι","Ι","ξ","Ξ"],
+    choices: ["i","j","ι","ξ"],
     trial_duration: 2000,
     response_ends_trial: true,
     // stimulus: "<p id = 'lex_stim' style = 'color: black; font-size: 60pt;'>αγάπη<\/p>",
@@ -94,14 +94,16 @@ var lex_dec = {
     data: jsPsych.timelineVariable('data'),
     on_finish: function(data){
       var correct = false;
-      var keys_i = ["i","I","ι","Ι"];
-      var keys_j = ["j","J","ξ","Ξ"];
-      if(data.response == data.key && data.rt > -1){
+      if(data.response == "ι"){
+        data.response = "i";
+      }
+      if(data.response == "ξ"){
+        data.response = "j";
+      }
+      if(data.response == data.key_answer && data.rt > -1){
         correct = true;
       }
       data.correct = correct;
-      jsPsych.data.addProperties({key: data.key});
-      jsPsych.data.addProperties({key_press: data.key_press});
     },
     // post_trial_gap: function() {
     //     return Math.floor(Math.random() * 1500) + 500;
