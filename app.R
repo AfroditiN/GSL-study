@@ -473,7 +473,7 @@ elts <- join(
   # mainlang,
   # neuro,
   # education,
-  # instructions,
+  instructions,
   trial,
   elt_save_results_to_disk(complete = TRUE),
   final
