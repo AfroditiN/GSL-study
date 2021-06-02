@@ -97,7 +97,7 @@ var lex_dec = {
       if(data.response == "ι"){
         data.response = "i";
       }
-      if(data.response == "ξ"){
+      else if(data.response == "ξ"){
         data.response = "j";
       }
       if(data.response == data.key_answer && data.rt > -1){
