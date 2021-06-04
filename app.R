@@ -31,7 +31,7 @@ write_to_file <- function(json_object,file_name,var_name=NULL){
 ###############################
 # test setup
 keys = c("i", "j")
-keyboard = c("I", "J")
+keyboard = c('"I"', '"J"')
 randizer = sample(1:length(keys))
 rand_keys = keys[randizer]
 rand_keyboard = keyboard[randizer]
@@ -190,10 +190,10 @@ instr_stim = paste("<p>Σας ευχαριστούμε που συμπληρώσ
                    "<p>Στη συνέχεια πρόκειται να δείτε ένα βίντεο με κάποιον που νοηματίζει μια λέξη και έπειτα,</p>",
                    "<p>μια γραπτή λέξη θα εμφανιστεί στην οθόνη σας.</p>",
                    "<p>Θα θέλαμε να αποφασίσετε όσο πιο γρήγορα μπορείτε, εάν η γραπτή λέξη είναι πραγματική λέξη ή όχι.",
-                   "<p>Πατήστε <span style='color:red;font-size:24pt;line-height:normal'>", rand_keyboard[1], 
-                   "</span>στο πληκτρολόγιό σου εάν νομίζετε ότι ΔΕΝ είναι πραγματική λέξη.</p>",
-                   "<p>Πάτησε <span style='color:red;font-size:24pt;line-height:normal'>", rand_keyboard[2],
-                   "</span>στο πληκτρολόγιό σου εάν νομίζετε ότι ΕΙΝΑΙ πραγματική λέξη</p>")
+                   "<p>Πατήστε <b>", rand_keyboard[1], 
+                   "</b>στο πληκτρολόγιό σου εάν νομίζετε ότι <b>ΔΕΝ</b> είναι πραγματική λέξη.</p>",
+                   "<p>Πάτησε <b>", rand_keyboard[2],
+                   "</b>στο πληκτρολόγιό σου εάν νομίζετε ότι <b>ΕΙΝΑΙ</b> πραγματική λέξη</p>")
 
 
 instr_stim_df = data.frame(stimulus = instr_stim)
@@ -203,6 +203,8 @@ instr_json <- stimulus_df_to_json(df = instr_stim_df,
                                    stimulus = "stimulus")
 # write json object to script
 write_to_file(instr_json, paste0(base_dir, "/instr_text.js"), "instr_text")
+
+
 
 ###############################
 ##### jsPsych starts here #####
