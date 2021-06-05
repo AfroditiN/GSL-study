@@ -7,6 +7,8 @@
 # # ####################################################
 
 
+set.seed(NULL)
+
 library(htmltools)
 library(psychTestR)
 library(tibble)
