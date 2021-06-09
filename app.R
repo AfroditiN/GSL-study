@@ -492,7 +492,7 @@ exp = make_test(
     researcher_email="201902479@post.au.dk",
     #problems_info=shiny::tags$span("Problems? Send an email to ", shiny::tags$b(researcher_email)),
     display = display_options(
-      #fullscreen = TRUE, 
+      full_screen = TRUE, 
       css = file.path(jspsych_dir, "css/jspsych.css"))
   ))
 
