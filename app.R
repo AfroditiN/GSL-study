@@ -15,7 +15,7 @@ library(tibble)
 library(shiny)
 library(jspsychr)
 library(dplyr)
-
+library(data.table)
 
 base_dir <- "/srv/shiny-server/GSL-study"
 jspsych_dir <- file.path(base_dir, "jspsych-6.3.1")
@@ -41,8 +41,9 @@ rand_keyboard = keyboard[randizer]
 real_words = c("αγάπη", "αλλαγή", "βήμα", "βράδυ", "χωριό", "χρώμα", "ευθύνη", "έρευνα", "φύση", "γραμμή", "ιδέα", "λάθος", "λέξη", "λύση", "νίκη", "νησί", "νόμος", "σχέδιο", "όριο", "σελίδα")
 rl = length(real_words)
 pseudo_words = c("εκάπη", "εγγαγή", "μήβα", "βρύδα", "βοριό", "πρώμα", "αυδύνη", "άλευνα", "γύση", "τραμμή", "αδέα", "κάθος", "πέξη", "λύβη", "πίκη", "λησί", "βόνος", "γδέσιο", "άλιο", "δασέλι")
+word_pairs <- real_words
+names(word_pairs) <- pseudo_words
 
-pl = length(pseudo_words)
 pl = length(pseudo_words)
 stim =  c(rep(real_words, times=2), rep(pseudo_words, times=2))
 sl = length(stim)
@@ -82,21 +83,32 @@ new_lex_test_n =  vid_stim_test[(5*rl+1):(rl*6),]
 new_lex_test_n$word = new_lex_test
 new_lex_test_n$word_type = lex_test$word_type[(rl+1):(rl*2)]
 
-avg_match <- function(y,z) {
+# avg_match <- function(y,z) {
+#   # print(y)
+#   # print(z)
+#   mean(apply(do.call(rbind, strsplit(y, "")), 2, function(x){
+#     # print(x)
+#     str_detect(z, x)
+#     # length(unique(x[!x %in% "_"])) == 1
+#   }))}
+
+lookup_pseudo <- function(y,z) {
   # print(y)
   # print(z)
-  mean(apply(do.call(rbind, strsplit(c(y, z), "")), 2, function(x){
-    # print(x)
-    length(unique(x[!x %in% "_"])) == 1
-  }))}
+  identical(word_pairs[y],z)
+  }
 
 # WITH mouthing
 new_pseudo_test = sample(lex_test$word[(sl/2+1):sl])
 # print(new_pseudo_test)
-while (any(mapply(avg_match, new_pseudo_test, vid_stim_test$video[(2*pl+1):(pl*4)])>0.5)) {
+while (any(mapply(lookup_pseudo, new_pseudo_test, vid_stim_test$video[(2*pl+1):(pl*4)]))) {
   new_pseudo_test = sample(lex_test$word[(sl/2+1):sl])
   # print(new_pseudo_test)
 }
+# while (any(mapply(avg_match, new_pseudo_test, vid_stim_test$video[(2*pl+1):(pl*4)])>0.5)) {
+#   new_pseudo_test = sample(lex_test$word[(sl/2+1):sl])
+#   # print(new_pseudo_test)
+# }
 new_pseudo_test_m =  vid_stim_test[(2*pl+1):(pl*4),]
 new_pseudo_test_m$word = new_pseudo_test
 new_pseudo_test_m$word_type = lex_test$word_type[(sl/2+1):sl]
@@ -104,7 +116,7 @@ new_pseudo_test_m$word_type = lex_test$word_type[(sl/2+1):sl]
 # WITHOUT mouthing
 new_pseudo_test = sample(lex_test$word[(sl/2+1):sl])
 # print(new_pseudo_test)
-while (any(mapply(avg_match, new_pseudo_test, vid_stim_test$video[(6*rl+1):(rl*8)])>0.5)) {
+while (any(mapply(lookup_pseudo, new_pseudo_test, vid_stim_test$video[(6*rl+1):(rl*8)])>0.5)) {
   new_pseudo_test = sample(lex_test$word[(sl/2+1):sl])
   # print(new_pseudo_test)
 }
@@ -138,15 +150,42 @@ full_test = rbind(full_test, new_lex_test_n)
 # next are the pseudowords
 full_test = rbind(full_test, new_pseudo_test_n)
 
-full_test$color = 'black'
-full_test$id = "lex_stim"
-full_test$fontsize = "60pt"
-full_test <- full_test %>% 
+
+# now randomize across all words while still ensuring that there are no "repeat"-trials
+# setting the seed only for test purposes [NB! delete when everything's running]
+set.seed(seed = 14412)
+
+# Obtaining the unique vector of those values
+video.unique <- unique(full_test$video)
+# NB! equivalent to just calling
+# video.unique <- real_words
+FT <- setDT(full_test)
+iters <- dim(FT)[1]/length(video.unique)
+full_rand_test <- tibble()
+for (i in 1:iters) {
+  sampl = 0
+  while (sampl == 0) {
+    temp_idx <- FT[,list(idx=sample(.I,1)),by="video"]$idx
+    temp_sample <- FT[temp_idx]
+    if (any(mapply(identical, head(temp_sample$word, -1), tail(temp_sample$word, -1)))) {
+      sampl = 1
+    }
+  }
+  full_rand_test <- bind_rows(full_rand_test, temp_sample)
+  if (!i == iters) {
+    FT <- FT[-temp_idx]
+  }
+}
+
+full_rand_test$color = 'black'
+full_rand_test$id = "lex_stim"
+full_rand_test$fontsize = "60pt"
+full_rand_test <- full_rand_test %>% 
   mutate(key_answer = if_else(word_type > 2, rand_keys[1], rand_keys[2])) %>%
   mutate(word_type = recode(word_type, "1" = "same_word", "2" = "diff_word", "3" = "pseudoword")) %>%
   mutate(video_type = recode(video_type, "1" = "mouthing", "2" = "no_mouthing"))
 
-full_test$stimulus <- html_stimulus(df = full_test, 
+full_rand_test$stimulus <- html_stimulus(df = full_rand_test, 
                                     html_content = "word",
                                     html_element = "p",
                                     column_names = c("color","fontsize"),
@@ -154,15 +193,15 @@ full_test$stimulus <- html_stimulus(df = full_test,
                                     id = "id")
 
 ##### for testing:
-full_test = full_test[1:5,]
+full_rand_test = full_rand_test[1:5,]
 
 # create json object from dataframe
-# lex_json <- stimulus_df_to_json(df = full_test,
+# lex_json <- stimulus_df_to_json(df = full_rand_test,
 #                                 stimulus = "stimulus",
 #                                 data = c("word","key_answer","word_type",
 #                                          "video","video_source","video_type"))
 
-vid_json <- stimulus_df_to_json(df = full_test,
+vid_json <- stimulus_df_to_json(df = full_rand_test,
                                 stimulus = c("video_source","stimulus"),
                                 data = c("word","key_answer","word_type",
                                          "video","stimulus","video_type"))
@@ -172,8 +211,8 @@ vid_json <- stimulus_df_to_json(df = full_test,
 write_to_file(vid_json, file.path(base_dir, "vid_stimuli.js"), "vid_stimuli")
 
 # write("var vid_array = [", file="vid_array.js")
-# apply(full_test, 1, function(x){
-#   if(length(full_test$video_source)==temp){
+# apply(full_rand_test, 1, function(x){
+#   if(length(full_rand_test$video_source)==temp){
 #     write(paste("'",x["video_source"],"'", sep=""), file="vid_array.js", append=TRUE)
 #   }else{
 #     write(paste("'",x["video_source"],"',", sep=""), file="vid_array.js", append=TRUE)
@@ -181,10 +220,10 @@ write_to_file(vid_json, file.path(base_dir, "vid_stimuli.js"), "vid_stimuli")
 # write("];",file="vid_array.js",append = TRUE)
 
 write("var vid_array = [", file="vid_array.js")
-apply(full_test[1:nrow(full_test)-1,], 1, function(x){
+apply(full_rand_test[1:nrow(full_rand_test)-1,], 1, function(x){
   write(paste("'",x["video_source"],"',", sep=""), file="vid_array.js", append=TRUE)
   })
-write(paste("'",full_test[nrow(full_test),"video_source"],"'];", sep=""),
+write(paste("'",full_rand_test[nrow(full_rand_test),"video_source"],"'];", sep=""),
       file="vid_array.js",append = TRUE)
 
 # Fix instructions (to align with randomization of response options)
