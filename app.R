@@ -152,8 +152,6 @@ full_test = rbind(full_test, new_pseudo_test_n)
 
 
 # now randomize across all words while still ensuring that there are no "repeat"-trials
-# setting the seed only for test purposes [NB! delete when everything's running]
-set.seed(seed = 14412)
 
 # Obtaining the unique vector of those values
 video.unique <- unique(full_test$video)
