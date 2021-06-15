@@ -112,15 +112,15 @@ var lex_dec = {
 
 var break = {
   type: 'html-keyboard-response',
-  stimulus: 'Press p to take a 30 second break. Otherwise, press c to continue immediately.',
-  choices: ['p','c'],
+  stimulus: 'Πατήστε 1 εάν θέλετε να κάνετε ένα διάλειμμα 30 δευτερολέπτων. Εάν δε θέλετε να κάνετε διάλειμμα, πατήστε 2 για να συνεχίσετε το πείραμα.',
+  choices: ['1','2'],
   on_finish: function(data){
-    if(jsPsych.pluginAPI.compareKeys(data.response, "p")) {
+    if(jsPsych.pluginAPI.compareKeys(data.response, "1")) {
       jsPsych.pauseExperiment();
       setTimeout(jsPsych.resumeExperiment, 30000);
     }
   }
-}
+};
 
 var test_procedure1 = {
     timeline: [fixation_vid, video_trial, fixation_test, lex_dec],

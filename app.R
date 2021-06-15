@@ -236,17 +236,17 @@ vid_json2 <- stimulus_df_to_json(df = full_rand_test2,
                                           "video","stimulus","video_type"))
 
 # write json object to script
-write_to_file(vid_json1, file.path(base_dir, "vid_stimuli1.js"), "vid_stimuli")
-write_to_file(vid_json2, file.path(base_dir, "vid_stimuli2.js"), "vid_stimuli")
+write_to_file(vid_json1, file.path(base_dir, "vid_stimuli1.js"), "vid_stimuli1")
+write_to_file(vid_json2, file.path(base_dir, "vid_stimuli2.js"), "vid_stimuli2")
 
-write("var vid_array = [", file="vid_array1.js")
+write("var vid_array1 = [", file="vid_array1.js")
 apply(full_rand_test1[1:nrow(full_rand_test1)-1,], 1, function(x){
   write(paste("'",x["video_source"],"',", sep=""), file="vid_array1.js", append=TRUE)
   })
 write(paste("'",full_rand_test1[nrow(full_rand_test1),"video_source"],"'];", sep=""),
       file="vid_array1.js",append = TRUE)
 
-write("var vid_array = [", file="vid_array2.js")
+write("var vid_array2 = [", file="vid_array2.js")
 apply(full_rand_test1[1:nrow(full_rand_test1)-1,], 1, function(x){
   write(paste("'",x["video_source"],"',", sep=""), file="vid_array2.js", append=TRUE)
 })
@@ -294,8 +294,10 @@ head <- tags$head(
 
 ui_video <- tags$div(
   head, 
-  includeScript(file.path(base_dir, "vid_stimuli.js")),
-  includeScript(file.path(base_dir, "vid_array.js")),
+  includeScript(file.path(base_dir, "vid_stimuli1.js")),
+  includeScript(file.path(base_dir, "vid_stimuli2.js")),
+  includeScript(file.path(base_dir, "vid_array1.js")),
+  includeScript(file.path(base_dir, "vid_array2.js")),
   includeScript("video-timeline.js"),
   includeScript("run-jspsych-vid.js"),
   tags$div(id = "js_psych", style = "min-height: 90vh")
