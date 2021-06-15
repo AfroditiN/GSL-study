@@ -110,11 +110,34 @@ var lex_dec = {
     // }
 };
 
-var test_procedure = {
+var break = {
+  type: 'html-keyboard-response',
+  stimulus: 'Press p to take a 30 second break. Otherwise, press c to continue immediately.',
+  choices: ['p','c'],
+  on_finish: function(data){
+    if(jsPsych.pluginAPI.compareKeys(data.response, "p")) {
+      jsPsych.pauseExperiment();
+      setTimeout(jsPsych.resumeExperiment, 30000);
+    }
+  }
+}
+
+var test_procedure1 = {
     timeline: [fixation_vid, video_trial, fixation_test, lex_dec],
-    timeline_variables: vid_stimuli,
+    timeline_variables: vid_stimuli1,
     randomize_order: true,
     repetitions: 1
   };
 
-timeline.push(test_procedure);
+var test_procedure2 = {
+    timeline: [fixation_vid, video_trial, fixation_test, lex_dec],
+    timeline_variables: vid_stimuli2,
+    randomize_order: true,
+    repetitions: 1
+  };
+
+var full_procedure = {
+    timeline: [test_procedure1, break, test_procedure2]
+  };
+
+timeline.push(full_procedure);

@@ -158,71 +158,102 @@ video.unique <- unique(full_test$video)
 # NB! equivalent to just calling
 # video.unique <- real_words
 FT <- setDT(full_test)
-iters <- dim(FT)[1]/length(video.unique)
-full_rand_test <- tibble()
+iters <- (dim(FT)[1]/length(video.unique))/2 # split in two cuz we need the full stimuli split in two blocks
+# block 1 (80 trials)
+full_rand_test1 <- tibble()
 for (i in 1:iters) {
   sampl = 0
   while (sampl == 0) {
     temp_idx <- FT[,list(idx=sample(.I,1)),by="video"]$idx
     temp_sample <- FT[temp_idx]
-    if (any(mapply(identical, head(temp_sample$word, -1), tail(temp_sample$word, -1)))) {
+    if (!any(mapply(identical, head(temp_sample$word, -1), tail(temp_sample$word, -1)))) {
       sampl = 1
     }
   }
-  full_rand_test <- bind_rows(full_rand_test, temp_sample)
-  if (!i == iters) {
+  full_rand_test1 <- bind_rows(full_rand_test1, temp_sample)
+  FT <- FT[-temp_idx]
+}
+
+# block 2 (80 trials)
+full_rand_test2 <- tibble()
+for (i in (iters+1):(2*iters)) {
+  sampl = 0
+  while (sampl == 0) {
+    temp_idx <- FT[,list(idx=sample(.I,1)),by="video"]$idx
+    temp_sample <- FT[temp_idx]
+    if (!any(mapply(identical, head(temp_sample$word, -1), tail(temp_sample$word, -1)))) {
+      sampl = 1
+    }
+  }
+  full_rand_test2 <- bind_rows(full_rand_test2, temp_sample)
+  if (!i == 2*iters) {
     FT <- FT[-temp_idx]
   }
 }
 
-full_rand_test$color = 'black'
-full_rand_test$id = "lex_stim"
-full_rand_test$fontsize = "60pt"
-full_rand_test <- full_rand_test %>% 
+full_rand_test1$color = 'black'
+full_rand_test1$id = "lex_stim"
+full_rand_test1$fontsize = "60pt"
+full_rand_test1 <- full_rand_test1 %>% 
   mutate(key_answer = if_else(word_type > 2, rand_keys[1], rand_keys[2])) %>%
   mutate(word_type = recode(word_type, "1" = "same_word", "2" = "diff_word", "3" = "pseudoword")) %>%
   mutate(video_type = recode(video_type, "1" = "mouthing", "2" = "no_mouthing"))
 
-full_rand_test$stimulus <- html_stimulus(df = full_rand_test, 
+full_rand_test1$stimulus <- html_stimulus(df = as.data.frame(full_rand_test1), 
                                     html_content = "word",
                                     html_element = "p",
                                     column_names = c("color","fontsize"),
                                     css = c("color", "font-size"),
                                     id = "id")
 
+full_rand_test2$color = 'black'
+full_rand_test2$id = "lex_stim"
+full_rand_test2$fontsize = "60pt"
+full_rand_test2 <- full_rand_test2 %>% 
+  mutate(key_answer = if_else(word_type > 2, rand_keys[1], rand_keys[2])) %>%
+  mutate(word_type = recode(word_type, "1" = "same_word", "2" = "diff_word", "3" = "pseudoword")) %>%
+  mutate(video_type = recode(video_type, "1" = "mouthing", "2" = "no_mouthing"))
+
+full_rand_test2$stimulus <- html_stimulus(df = as.data.frame(full_rand_test2), 
+                                          html_content = "word",
+                                          html_element = "p",
+                                          column_names = c("color","fontsize"),
+                                          css = c("color", "font-size"),
+                                          id = "id")
+
 ##### for testing:
-full_rand_test = full_rand_test[1:5,]
+full_rand_test1 = full_rand_test1[1:5,]
+full_rand_test2 = full_rand_test2[1:5,]
 
 # create json object from dataframe
-# lex_json <- stimulus_df_to_json(df = full_rand_test,
-#                                 stimulus = "stimulus",
-#                                 data = c("word","key_answer","word_type",
-#                                          "video","video_source","video_type"))
-
-vid_json <- stimulus_df_to_json(df = full_rand_test,
+vid_json1 <- stimulus_df_to_json(df = full_rand_test1,
                                 stimulus = c("video_source","stimulus"),
                                 data = c("word","key_answer","word_type",
                                          "video","stimulus","video_type"))
+vid_json2 <- stimulus_df_to_json(df = full_rand_test2,
+                                 stimulus = c("video_source","stimulus"),
+                                 data = c("word","key_answer","word_type",
+                                          "video","stimulus","video_type"))
 
 # write json object to script
-# write_to_file(lex_json, file.path(base_dir, "lex_stimuli.js"), "lex_stimuli")
-write_to_file(vid_json, file.path(base_dir, "vid_stimuli.js"), "vid_stimuli")
+write_to_file(vid_json1, file.path(base_dir, "vid_stimuli1.js"), "vid_stimuli")
+write_to_file(vid_json2, file.path(base_dir, "vid_stimuli2.js"), "vid_stimuli")
 
-# write("var vid_array = [", file="vid_array.js")
-# apply(full_rand_test, 1, function(x){
-#   if(length(full_rand_test$video_source)==temp){
-#     write(paste("'",x["video_source"],"'", sep=""), file="vid_array.js", append=TRUE)
-#   }else{
-#     write(paste("'",x["video_source"],"',", sep=""), file="vid_array.js", append=TRUE)
-# }})
-# write("];",file="vid_array.js",append = TRUE)
-
-write("var vid_array = [", file="vid_array.js")
-apply(full_rand_test[1:nrow(full_rand_test)-1,], 1, function(x){
-  write(paste("'",x["video_source"],"',", sep=""), file="vid_array.js", append=TRUE)
+write("var vid_array = [", file="vid_array1.js")
+apply(full_rand_test1[1:nrow(full_rand_test1)-1,], 1, function(x){
+  write(paste("'",x["video_source"],"',", sep=""), file="vid_array1.js", append=TRUE)
   })
-write(paste("'",full_rand_test[nrow(full_rand_test),"video_source"],"'];", sep=""),
-      file="vid_array.js",append = TRUE)
+write(paste("'",full_rand_test1[nrow(full_rand_test1),"video_source"],"'];", sep=""),
+      file="vid_array1.js",append = TRUE)
+
+write("var vid_array = [", file="vid_array2.js")
+apply(full_rand_test1[1:nrow(full_rand_test1)-1,], 1, function(x){
+  write(paste("'",x["video_source"],"',", sep=""), file="vid_array2.js", append=TRUE)
+})
+write(paste("'",full_rand_test1[nrow(full_rand_test1),"video_source"],"'];", sep=""),
+      file="vid_array2.js",append = TRUE)
+
+
 
 # Fix instructions (to align with randomization of response options)
 instr_stim = paste("<p>Σας ευχαριστούμε που συμπληρώσατε τη δημογραφική έρευνα.</p>",
