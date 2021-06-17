@@ -222,8 +222,8 @@ full_rand_test2$stimulus <- html_stimulus(df = as.data.frame(full_rand_test2),
                                           id = "id")
 
 ##### for testing:
-full_rand_test1 = full_rand_test1[1:5,]
-full_rand_test2 = full_rand_test2[1:5,]
+# full_rand_test1 = full_rand_test1[1:5,]
+# full_rand_test2 = full_rand_test2[1:5,]
 
 # create json object from dataframe
 vid_json1 <- stimulus_df_to_json(df = full_rand_test1,
