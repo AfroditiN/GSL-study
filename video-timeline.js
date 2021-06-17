@@ -30,7 +30,7 @@ var timeline = [];
 var preload = {
     type: 'preload',
     auto_preload: true,
-    // video: ['videos/αγάπη_m.mp4', 'videos/γραμμή_m.mp4', 'videos/ιδέα_m.mp4'],
+    video: vid_array,
     on_success: function(file) {
         console.log('File loaded: ',file);
     },
