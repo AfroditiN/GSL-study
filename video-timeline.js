@@ -27,14 +27,14 @@
 // VERSION 2
 var timeline = [];
 
-// var preload = {
-//     type: 'preload',
-//     auto_preload: true,
-//     video: ['videos/αγάπη_m.mp4', 'videos/γραμμή_m.mp4', 'videos/ιδέα_m.mp4'],
-//     on_success: function(file) {
-//         console.log('File loaded: ',file);
-//     },
-//   };
+var preload = {
+    type: 'preload',
+    auto_preload: true,
+    // video: ['videos/αγάπη_m.mp4', 'videos/γραμμή_m.mp4', 'videos/ιδέα_m.mp4'],
+    on_success: function(file) {
+        console.log('File loaded: ',file);
+    },
+  };
 // timeline.push(preload);
 
 // var test_stimuli = [
@@ -110,7 +110,7 @@ var lex_dec = {
     // }
 };
 
-var break = {
+var pause = {
   type: 'html-keyboard-response',
   stimulus: 'Πατήστε 1 εάν θέλετε να κάνετε ένα διάλειμμα 30 δευτερολέπτων. Εάν δε θέλετε να κάνετε διάλειμμα, πατήστε 2 για να συνεχίσετε το πείραμα.',
   choices: ['1','2'],
@@ -137,7 +137,7 @@ var test_procedure2 = {
   };
 
 var full_procedure = {
-    timeline: [test_procedure1, break, test_procedure2]
+    timeline: [preload, test_procedure1, pause, test_procedure2]
   };
 
 timeline.push(full_procedure);
