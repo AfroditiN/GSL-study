@@ -30,6 +30,7 @@ var timeline = [];
 var preload = {
     type: 'preload',
     auto_preload: true,
+    continue_after_error: true,
     video: vid_array,
     on_success: function(file) {
         console.log('File loaded: ',file);
