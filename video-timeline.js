@@ -126,14 +126,14 @@ var pause = {
 var test_procedure1 = {
     timeline: [fixation_vid, video_trial, fixation_test, lex_dec],
     timeline_variables: vid_stimuli1,
-    randomize_order: true,
+    randomize_order: false,
     repetitions: 1
   };
 
 var test_procedure2 = {
     timeline: [fixation_vid, video_trial, fixation_test, lex_dec],
     timeline_variables: vid_stimuli2,
-    randomize_order: true,
+    randomize_order: false,
     repetitions: 1
   };
 
