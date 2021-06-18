@@ -5,7 +5,7 @@ function new_timeline() {
       timeline: [{
         type: "survey-text",
         questions: [
-          {prompt: "Εάν όχι, σε ποια ηλικία βάλατε κοχλιακό εμφύτευμα;", name: 'Cochlear_impl2', required: false},
+          {prompt: "Εάν ναι, σε ποια ηλικία βάλατε κοχλιακό εμφύτευμα;", name: 'Cochlear_impl2', required: false},
         ],
         post_trial_gap: 500
     }],
