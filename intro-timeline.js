@@ -4,7 +4,7 @@ function new_timeline() {
     var intro = {
       timeline: [{
         type: "html-button-response",
-        choices: ['Συνέχεια'],
+        choices: ['Είμαι 18 χρονών και άνω. Συνέχεια'],
         stimulus: jsPsych.timelineVariable('stimulus'),
         post_trial_gap: 500
     }],
