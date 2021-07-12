@@ -474,6 +474,44 @@ mainlang <- page(
   save_answer = TRUE
 )
 
+## Proficiency level/ GSL
+
+ui_GSLlevel <- tags$div(
+  head,
+  includeScript(file.path(base_dir, "GSLlevel-timeline.js")),
+  includeScript(file.path(base_dir, "run-jspsych.js")),
+  tags$div(id = "js_psych", style = "min-height: 90vh")
+)
+
+GSLlevel <- page(
+  ui = ui_GSLlevel,
+  label = 'GSLlevel',
+  get_answer = function(input, ...)
+    input$jspsych_results,
+  validate = function(answer, ...)
+    nchar(answer) > 0L,
+  save_answer = TRUE
+)
+
+## Proficiency level/ Written Greek
+
+ui_writtenGreek <- tags$div(
+  head,
+  includeScript(file.path(base_dir, "writtenGreek-timeline.js")),
+  includeScript(file.path(base_dir, "run-jspsych.js")),
+  tags$div(id = "js_psych", style = "min-height: 90vh")
+)
+
+writtenGreek <- page(
+  ui = ui_writtenGreek,
+  label = 'writtenGreek',
+  get_answer = function(input, ...)
+    input$jspsych_results,
+  validate = function(answer, ...)
+    nchar(answer) > 0L,
+  save_answer = TRUE
+)
+
 ## Education
 
 ui_edu <- tags$div(
@@ -529,15 +567,17 @@ final <- final_page(tags$div(
 
 elts <- join(
   intro,
-  # demographics,
-  # gender,
-  # deaf1,
-  # deaf2,
-  # cochlear1,
-  # cochlear2,
-  # mainlang,
-  # neuro,
-  # education,
+  demographics,
+  gender,
+  deaf1,
+  deaf2,
+  cochlear1,
+  cochlear2,
+  mainlang,
+  GSLlevel,
+  writtenGreek,
+  neuro,
+  education,
   instructions,
   trial,
   elt_save_results_to_disk(complete = TRUE),
