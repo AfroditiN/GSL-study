@@ -578,6 +578,7 @@ elts <- join(
   writtenGreek,
   neuro,
   education,
+  elt_save_results_to_disk(complete = FALSE),
   instructions,
   trial,
   elt_save_results_to_disk(complete = TRUE),
