@@ -165,6 +165,7 @@ for (i in 1:iters) {
   sampl = 0
   while (sampl == 0) {
     temp_idx <- FT[,list(idx=sample(.I,1)),by="video"]$idx
+    temp_idx <- sample(temp_idx)
     temp_sample <- FT[temp_idx]
     if (!any(mapply(identical, head(temp_sample$word, -1), tail(temp_sample$word, -1)))) {
       sampl = 1
@@ -180,6 +181,7 @@ for (i in (iters+1):(2*iters)) {
   sampl = 0
   while (sampl == 0) {
     temp_idx <- FT[,list(idx=sample(.I,1)),by="video"]$idx
+    temp_idx <- sample(temp_idx)
     temp_sample <- FT[temp_idx]
     if (!any(mapply(identical, head(temp_sample$word, -1), tail(temp_sample$word, -1)))) {
       sampl = 1
